@@ -1,14 +1,22 @@
 using importer_app.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
+    string[] allowedOrigins;
+    if (builder.Environment.IsDevelopment())
+    {
+        allowedOrigins = new[] { "http://localhost:3000" };
+    }
+    else
+    {
+        allowedOrigins = new[] { "https://importor-app.onrender.com" };
+    }
 // Add services to the container.
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowOrigin",
         build =>
         {
-            build.WithOrigins("http://localhost:3000")
+            build.WithOrigins(allowedOrigins)
                    .AllowAnyHeader()
                    .AllowAnyMethod()
                    .AllowCredentials()
