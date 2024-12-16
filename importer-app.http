@@ -1,0 +1,6 @@
+@importer_app_HostAddress = http://localhost:5279
+
+GET {{importer_app_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
