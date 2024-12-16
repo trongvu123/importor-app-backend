@@ -1,26 +1,27 @@
 using importer_app.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-    string[] allowedOrigins;
-    if (builder.Environment.IsDevelopment())
-    {
-        allowedOrigins = new[] { "http://localhost:3000" };
-    }
-    else
-    {
-        allowedOrigins = new[] { "https://importor-app.onrender.com" };
-    }
+var env = builder.Environment;
 // Add services to the container.
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowOrigin",
         build =>
         {
-            build.WithOrigins(allowedOrigins)
-                   .AllowAnyHeader()
-                   .AllowAnyMethod()
-                   .AllowCredentials()
-                   .WithExposedHeaders("Content-Disposition"); ;
+            if (env.IsDevelopment())
+            {
+                build.WithOrigins("http://localhost:3000"); // Môi tr??ng phát tri?n
+            }
+            else
+            {
+             
+                build.WithOrigins("https://importor-app.onrender.com", "https://app-cua-quynh.vercel.app"); // Môi tr??ng s?n xu?t
+            }
+
+            build.AllowAnyHeader()
+                 .AllowAnyMethod()
+                 .AllowCredentials()
+                 .WithExposedHeaders("Content-Disposition");
         });
 });
 
